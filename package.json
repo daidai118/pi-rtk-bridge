@@ -1,0 +1,17 @@
+{
+  "name": "pi-rtk-bridge",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "keywords": ["pi-package", "pi", "rtk"],
+  "pi": {
+    "extensions": ["./extensions/*.ts"]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "scripts": {
+    "build": "echo 'nothing to build'",
+    "check": "echo 'copy to .mjs and run node --check for syntax verification'"
+  }
+}
