@@ -10,8 +10,8 @@ Repository:
 
 - Rewrites safe, verbose **bash** commands to `rtk <command>` automatically
 - Injects concise RTK guidance into Pi's system prompt
-- Adds `/rtk-status` so you can confirm the bridge is active
-- Shows a small `RTK:on` / `RTK:off` status in the footer in interactive mode
+- Adds `/rtk-status`, `/rtk-on`, `/rtk-off`, and `/rtk-toggle`
+- Shows a small `RTK:on`, `RTK:off`, or `RTK:missing` status in the footer in interactive mode
 
 ## Important limitation
 
@@ -84,6 +84,25 @@ Then verify inside Pi:
 
 Once active, matching bash commands like `git status`, `cargo test`, and `pytest` will be rewritten automatically.
 
+## Control it manually
+
+Inside Pi, you can control the bridge with:
+
+```text
+/rtk-status   # show whether the bridge is on, off, or missing RTK
+/rtk-on       # enable automatic RTK rewriting
+/rtk-off      # disable automatic RTK rewriting
+/rtk-toggle   # toggle between on and off
+```
+
+The on/off setting is persisted in:
+
+```text
+~/.pi/agent/extensions/pi-rtk-bridge.json
+```
+
+So if you turn it off, it stays off across reloads and future Pi restarts until you turn it back on.
+
 ## Update
 
 If you installed from an unpinned git source, you can update it with:
@@ -120,16 +139,6 @@ Then reload Pi again:
 /reload
 ```
 
-## Agent.md 
+## No manual AGENTS.md changes required
 
-```
-### RTK Usage
-
-When RTK is available (`rtk --version` and `rtk gain` both succeed), prefer it for verbose **bash** commands that would otherwise dump noisy output into context.
-
-- Prefer `rtk <command>` for high-volume shell commands such as `git`, `gh`, `ls`, `tree`, `cat`, `head`, `tail`, `rg`, `grep`, `find`, `cargo test`, `cargo build`, `cargo clippy`, `pytest`, `vitest`, `jest`, `docker ps`, `docker logs`, `docker images`, `npm test`, `npm run build`, `npm list`, `pnpm test`, `pnpm list`, and `pnpm outdated`
-- RTK only applies to **bash** commands. Pi built-in tools such as `read`, `grep`, `find`, `ls`, `edit`, and `write` do not automatically go through RTK
-- For complex shell expressions with pipes, redirects, `&&`, `||`, subshells, or leading env assignments, prefer the raw command unless `rtk` is explicitly intended
-- To bypass RTK for one command, use `RTK_DISABLED=1 <command>` or `rtk proxy <command>`
-- If RTK is unavailable or `rtk gain` fails, fall back to raw commands
-```
+You do not need to manually edit `AGENTS.md` for this package. The extension injects the necessary RTK guidance into Pi automatically when the bridge is enabled.
