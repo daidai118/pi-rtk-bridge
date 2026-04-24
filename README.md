@@ -120,16 +120,16 @@ Then reload Pi again:
 /reload
 ```
 
-## Local development install
+## Agent.md 
 
-If you are editing the package locally, you can still install from a filesystem path:
-
-```bash
-pi install /absolute/path/to/pi-rtk-bridge
 ```
+### RTK Usage
 
-For this repo on this machine:
+When RTK is available (`rtk --version` and `rtk gain` both succeed), prefer it for verbose **bash** commands that would otherwise dump noisy output into context.
 
-```bash
-pi install /Users/daidai/pi-packages/pi-rtk-bridge
+- Prefer `rtk <command>` for high-volume shell commands such as `git`, `gh`, `ls`, `tree`, `cat`, `head`, `tail`, `rg`, `grep`, `find`, `cargo test`, `cargo build`, `cargo clippy`, `pytest`, `vitest`, `jest`, `docker ps`, `docker logs`, `docker images`, `npm test`, `npm run build`, `npm list`, `pnpm test`, `pnpm list`, and `pnpm outdated`
+- RTK only applies to **bash** commands. Pi built-in tools such as `read`, `grep`, `find`, `ls`, `edit`, and `write` do not automatically go through RTK
+- For complex shell expressions with pipes, redirects, `&&`, `||`, subshells, or leading env assignments, prefer the raw command unless `rtk` is explicitly intended
+- To bypass RTK for one command, use `RTK_DISABLED=1 <command>` or `rtk proxy <command>`
+- If RTK is unavailable or `rtk gain` fails, fall back to raw commands
 ```
